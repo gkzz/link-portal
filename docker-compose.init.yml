@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.init
+    container_name: app
+    hostname: app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app:/home/app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./app/.env.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=portal.settings.local_sqlite
+

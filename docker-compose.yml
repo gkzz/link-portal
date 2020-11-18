@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  app:
+    build: ./app
+    container_name: app
+    hostname: app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app:/home/app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./app/.env.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=portal.settings.local_postgres
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+  
+  db:
+    build: ./db
+    container_name: db
+    hostname: db
+    volumes:
+      - ./db/postgres_data:/var/lib/postgresql/data/
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./db/opt/sql.d:/opt/sql.d
+    env_file:
+      - ./db/.env.dev
+    ports:
+      - 5432:5432
+    networks:
+      - private
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  public:
+    driver: bridge
+  private:
+    driver: bridge
