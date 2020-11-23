@@ -43,10 +43,10 @@ if [ "$H_FLAG" = "TRUE" ]; then
   help
 elif [ "$N_FLAG" = "TRUE" ]; then
   docker-compose down -v
-  sudo rm -rf db/postgres_data
+  #sudo rm -rf db/postgres_data
 elif [ "$F_FLAG" = "TRUE" ]; then
   docker-compose -f ${FILENAME} down -v
-  sudo rm -rf db/postgres_data
+  #sudo rm -rf db/postgres_data
 else
   echo "option is unexpected."
   help

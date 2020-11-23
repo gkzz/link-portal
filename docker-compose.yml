@@ -5,15 +5,19 @@ services:
     build: ./app
     container_name: app
     hostname: app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn portal.wsgi:application --bind 0.0.0.0:8000
+    restart: on-failure
     volumes:
-      - ./app:/home/app
-    ports:
-      - 8000:8000
+      #- ./staticdata:/home/app/portal/static
+      - ./app/staticdata:/home/app/static
+    expose:
+      - 8000
+#    ports:
+#      - 8000:8000
     env_file:
       - ./app/.env.dev
     environment:
-      - DJANGO_SETTINGS_MODULE=portal.settings.local_postgres
+      - DJANGO_SETTINGS_MODULE=portal.settings.local_postgres_nginx
     networks:
       - public
       - private
@@ -24,10 +28,11 @@ services:
     build: ./db
     container_name: db
     hostname: db
+    restart: on-failure
+    tty: true
     volumes:
-      - ./db/postgres_data:/var/lib/postgresql/data/
+#      - ./db/postgres_data:/var/lib/postgresql/data
       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./db/opt/sql.d:/opt/sql.d
     env_file:
       - ./db/.env.dev
     ports:
@@ -35,8 +40,26 @@ services:
     networks:
       - private
 
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    hostname: nginx
+    restart: on-failure
+    volumes:
+      - ./nginx/log:/var/log/nginx
+      #- ./staticdata:/home/app/portal/static
+      - ./nginx/staticdata:/home/app/static
+    ports:
+      - 9999:80
+    networks:
+      - public
+    depends_on:
+      - app
+
 volumes:
-  postgres_data:
+#  postgres_data:
+#  driver: local
+  staticdata:
     driver: local
 
 networks:
