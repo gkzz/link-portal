@@ -99,6 +99,7 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
 # /home/app/portal/static/
 STATIC_ROOT = "/home/app/static/"
+#STATIC_ROOT = "/home/app/portal/static/"
 
 
 # Quickstart - Django REST framework
