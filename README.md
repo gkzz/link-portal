@@ -109,22 +109,20 @@ $ tree -L 2
 
 ```
 
-### How to use `scripts/*.sh`
+### How to use `Makefile`
 ```
-$ bash scripts/build-dc.sh -h
-    overview：wheter run "docker-compose up -d --build"
-    usage：bash commands/build-dc.sh [-h|-n|-f]
-    option：
-      -h  this message
-      -n ->> run "docker-compose up -d --build"
-      -f ->> run "docker-compose -f FILENAME up -d --build"
-$ bash scripts/down-dc.sh -h
-    overview：wheter run "docker-compose down -v"
-    usage：bash commands/down-dc.sh [-h|-n|-f]
-    option：
-      -h  this message
-      -n ->> run "docker-compose down -v"
-      -f ->> run "docker-compose -f FILENAME down -v"
+$ make help
+up                   docker-compose up -d
+ps                   docker-compose ps
+logs                 docker-compose logs
+down                 docker-compose down -v
+stop                 docker-compose stop
+rebuild              docker-compose up -d --build
+app                  docker-compose exec app /bin/bash
+db                   docker-compose exec db /bin/bash
+logapp               docker-compose logs app
+logdb                docker-compose logs db
+curl                 curl -I http://localhost:9999
 ```
 
 
