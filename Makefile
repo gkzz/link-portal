@@ -1,29 +1,48 @@
-up:
+.DEFAULT_GOAL := help
+.PHONY: help
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+.PHONY: up
+up: ## docker-compose up -d
 	docker-compose up -d
 
-ps:
+.PHONY: ps
+ps: ## docker-compose ps
 	docker-compose ps
 
-logs:
+.PHONY: logs
+logs: ## docker-compose logs
 	docker-compose logs
 
-down:
+.PHONY: down
+down: ## docker-compose down -v
 	docker-compose down -v
 
-stop:
+.PHONY: stop
+stop: ## docker-compose stop
 	docker-compose stop
 
-rebuild:
+.PHONY: rebuild
+rebuild: ## docker-compose up -d --build
 	docker-compose up -d --build
 
-app:
+.PHONY: app
+app: ## docker-compose exec app /bin/bash
 	docker-compose exec app /bin/bash
 
-db:
+.PHONY: db
+db: ## docker-compose exec db /bin/bash
 	docker-compose exec db /bin/bash
 
-nginx:
-	docker-compose exec nginx /bin/bash
+.PHONY: logapp
+logapp: ## docker-compose logs app
+	docker-compose logs app
 
-curl:
-	curl http://localhost:9999
+.PHONY: logdb
+logdb: ## docker-compose logs db
+	docker-compose logs db
+
+.PHONY: curl
+curl: ## curl -I http://localhost:9999
+	curl -I http://localhost:9999

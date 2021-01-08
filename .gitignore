@@ -23,7 +23,8 @@
 
 ### dotenv ###
 .env
-.env*
+#.env*
+.env.dev.tmpl
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 

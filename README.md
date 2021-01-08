@@ -7,29 +7,15 @@ Self-hosted bookmark service
 ## TL;DR
 
 ```
-$ git clone 
+$ git clone https://github.com/gkzz/link-portal.git
 $ cp app/.env.dev.tmpl app/.env.dev \
   && cp db/.env.dev.tmpl db/.env.dev
-```
-
-### App/DB/Nginx
-```
-$ docker-compose -f docker-compose.nginx.yml up -d --build
-$ bash scripts/build-dc.sh -f docker-compose.nginx.yml
-```
-
-### App/DB
-```
-$ docker-compose up -d --build
-$ bash scripts/build-dc.sh -n
-```
-
-### App
-```
-$ docker-compose -f docker-compose.init.yml up -d --build
-
-$ bash scripts/build-dc.sh -f docker-compose.init.yml
-
+$ make rebuild
+$ make ps
+$ make app
+docker-compose exec app /bin/bash
+app@app:~$ python manage.py migrate --noinput
+app@app:~$ python manage.py collectstatic --noinput --clear
 ```
 
 ## Technology Used
